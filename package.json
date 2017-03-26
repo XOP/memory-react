@@ -29,6 +29,7 @@
   "author": "Evgeny Khoroshilov <stewiekillsloiss@gmail.com> (https://github.com/XOP)",
   "license": "MIT",
   "dependencies": {
+    "array-shuffle": "1.0.1",
     "bulma": "0.3.1",
     "object-assign": "4.1.0",
     "react": "15.4.1",

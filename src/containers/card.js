@@ -18,6 +18,8 @@ class SmartCard extends Component {
     handleClick(e) {
         e.preventDefault();
 
+        console.log(`Clicked card # ${this.props.id}`);
+
         this.setState({
             isSelected: !this.state.isSelected
         });
@@ -36,7 +38,9 @@ class SmartCard extends Component {
 }
 
 SmartCard.propTypes = {
-    children: PropTypes.node
+    children: PropTypes.node,
+    id: PropTypes.number,
+    isSelected: PropTypes.bool
 };
 
 const mapStateToProps = (state) => ({

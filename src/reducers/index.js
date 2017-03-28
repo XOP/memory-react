@@ -7,7 +7,9 @@ import initialState from './initialState';
 
 const cardsSelector = () => {
     const cards = cardsReducer();
-    const cardsDouble = cards.concat(cards.slice(0));
+
+    const cardsWithId = cards.map((card, id) => Object.assign({}, card, { id }));
+    const cardsDouble = cardsWithId.concat(cardsWithId.slice(0));
 
     return arrayShuffle(cardsDouble);
 };

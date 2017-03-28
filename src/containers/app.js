@@ -14,7 +14,12 @@ class App extends Component {
 
         return (
             cards.map((card, idx) => (
-                <Card key={idx}>{ card.content }</Card>
+                <Card
+                    id={card.id}
+                    key={idx}
+                >
+                    {card.content}
+                </Card>
             ))
         );
     }

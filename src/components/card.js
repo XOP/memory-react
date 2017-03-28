@@ -4,7 +4,8 @@ import cls from 'classnames';
 
 import {
     CARD_SELECTED_STYLE,
-    CARD_CLEARED_STYLE
+    CARD_CLEARED_STYLE,
+    CARD_BACK_STYLE
 } from '../constants/cardStyle';
 
 class Card extends Component {
@@ -48,9 +49,13 @@ class Card extends Component {
                 style={cardStyle}
                 onClick={this.handleClick}
             >
-                <figure className="image is-128x128">
-                    {cardImage}
-                </figure>
+                {
+                    isSelected ?
+                        <figure className="image is-128x128">
+                            {cardImage}
+                        </figure> :
+                        <div className="notification is-info" style={CARD_BACK_STYLE} />
+                }
             </div>
         );
     }

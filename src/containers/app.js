@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 import { connect } from 'react-redux';
 
-import Card from '../components/card';
+import Card from './card';
 
 class App extends Component {
     constructor(props) {

@@ -18,10 +18,16 @@ class SmartCard extends Component {
     handleClick(e) {
         e.preventDefault();
 
-        console.log(`Clicked card # ${this.props.id}`);
+        if (this.props.isDisabled) {
+            return false;
+        }
 
         this.setState({
             isSelected: !this.state.isSelected
+        });
+
+        this.props.onClick({
+            id: this.props.id
         });
     }
 
@@ -40,11 +46,13 @@ class SmartCard extends Component {
 SmartCard.propTypes = {
     children: PropTypes.node,
     id: PropTypes.number,
-    isSelected: PropTypes.bool
+    isDisabled: PropTypes.bool,
+    isSelected: PropTypes.bool,
+    onClick: PropTypes.func
 };
 
 const mapStateToProps = (state) => ({
-
+    isDisabled: !state.isPickAvailable
 });
 
 export default connect(mapStateToProps)(SmartCard);

@@ -2,11 +2,21 @@ import React, { Component, PropTypes } from 'react';
 
 import { connect } from 'react-redux';
 
+import {
+    pickAvailableToggle
+} from '../actions';
+
 import Card from './card';
 
 class App extends Component {
     constructor(props) {
         super(props);
+
+        this.handleCardPick = this.handleCardPick.bind(this);
+    }
+
+    handleCardPick({ id }) {
+        console.log(`This card has id ${id}`);
     }
 
     renderCards() {
@@ -17,6 +27,7 @@ class App extends Component {
                 <Card
                     id={card.id}
                     key={idx}
+                    onClick={this.handleCardPick}
                 >
                     {card.content}
                 </Card>
@@ -46,11 +57,13 @@ class App extends Component {
 }
 
 App.propTypes = {
-    cards: PropTypes.array
+    cards: PropTypes.array,
+
+    pickAvailableToggle: PropTypes.func
 };
 
 const mapDispatchToProps = {
-
+    pickAvailableToggle
 };
 
 const mapStateToProps = state => {

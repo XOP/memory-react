@@ -5,6 +5,10 @@ import arrayShuffle from 'array-shuffle';
 import cardsReducer from './cardsReducer';
 import initialState from './initialState';
 
+import {
+    TOGGLED_PICK_AVAILABLE
+} from '../constants';
+
 const cardsSelector = () => {
     const cards = cardsReducer();
 
@@ -14,8 +18,20 @@ const cardsSelector = () => {
     return arrayShuffle(cardsDouble);
 };
 
+const isPickAvailableReducer = (state = initialState.isPickAvailable, action) => {
+    switch (action.type) {
+        case TOGGLED_PICK_AVAILABLE:
+            return action.payload;
+
+        default:
+            return state;
+    }
+};
+
 const rootReducer = combineReducers({
-    cards: cardsSelector
+    cards: cardsSelector,
+
+    isPickAvailable: isPickAvailableReducer
 });
 
 export default rootReducer;

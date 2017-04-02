@@ -24,10 +24,7 @@ const initCards = () => {
     return arrayShuffle(cardsWithIndex);
 };
 
-// fixme remove redundancy
-const initCardsState = initCards();
-
-const cardsReducer = (state = initCardsState, action) => {
+const cardsReducer = (state = initCards(), action) => {
     switch (action.type) {
         case TOGGLED_CARD: {
             return state.map(item => {

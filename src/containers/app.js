@@ -3,7 +3,10 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import {
-    pickAvailableToggle
+    pickAvailableToggle,
+    toggleCard,
+    removeCards,
+    resetCards
 } from '../actions';
 
 import Card from './card';
@@ -15,8 +18,12 @@ class App extends Component {
         this.handleCardPick = this.handleCardPick.bind(this);
     }
 
-    handleCardPick({ id }) {
-        console.log(`This card has id ${id}`);
+    handleCardPick({ index, isSelected }) {
+        console.log(this.props.cards);
+        console.log("==================");
+        console.log(index, isSelected);
+
+        this.props.toggleCard(index, isSelected);
     }
 
     renderCards() {
@@ -26,6 +33,8 @@ class App extends Component {
             cards.map((card, idx) => (
                 <Card
                     id={card.id}
+                    isSelected={card.isSelected}
+                    index={card.index}
                     key={idx}
                     onClick={this.handleCardPick}
                 >
@@ -63,7 +72,8 @@ App.propTypes = {
 };
 
 const mapDispatchToProps = {
-    pickAvailableToggle
+    pickAvailableToggle,
+    toggleCard
 };
 
 const mapStateToProps = state => {

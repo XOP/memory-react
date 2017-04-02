@@ -9,10 +9,6 @@ class SmartCard extends Component {
         super(props);
 
         this.handleClick = this.handleClick.bind(this);
-
-        this.state = {
-            isSelected: false
-        };
     }
 
     handleClick(e) {
@@ -22,19 +18,16 @@ class SmartCard extends Component {
             return false;
         }
 
-        this.setState({
-            isSelected: !this.state.isSelected
-        });
-
         this.props.onClick({
-            id: this.props.id
+            index: this.props.index,
+            isSelected: !this.props.isSelected
         });
     }
 
     render() {
         return (
             <Card
-                isSelected={this.state.isSelected}
+                isSelected={this.props.isSelected}
                 onClick={this.handleClick}
             >
                 {this.props.children}
@@ -48,6 +41,7 @@ SmartCard.propTypes = {
     id: PropTypes.number,
     isDisabled: PropTypes.bool,
     isSelected: PropTypes.bool,
+    index: PropTypes.number,
     onClick: PropTypes.func
 };
 

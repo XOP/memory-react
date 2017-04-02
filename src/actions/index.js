@@ -1,4 +1,7 @@
 import {
+    TOGGLED_CARD,
+    REMOVED_CARDS,
+    RESET_PICKS,
     TOGGLED_PICK_AVAILABLE
 } from '../constants';
 
@@ -7,3 +10,16 @@ export const pickAvailableToggle = (available = true) => ({
     payload: available
 });
 
+export const toggleCard = (index, isSelected) => ({
+    type: TOGGLED_CARD,
+    payload: { index, isSelected }
+});
+
+export const removeCards = (id) => ({
+    type: REMOVED_CARDS,
+    payload: id
+});
+
+export const resetCards = () => ({
+    type: RESET_PICKS
+});

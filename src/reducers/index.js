@@ -6,7 +6,7 @@ import initCardsReducer from './initCardsReducer';
 import initialState from './initialState';
 
 import {
-    CONFIG_CLONES, // todo: config clone
+    CONFIG_CLONES,
 
     REMOVED_CARDS,
     RESET_PICKS,
@@ -17,9 +17,16 @@ import {
 const initCards = () => {
     const cards = initCardsReducer();
 
+    // {...} -> {..., id}
     const cardsWithId = cards.map((card, id) => Object.assign({}, card, { id }));
-    const cardsDouble = cardsWithId.concat(cardsWithId.slice(0));
-    const cardsWithIndex = cardsDouble.map((card, index) => Object.assign({}, card, { index }));
+
+    // duplicating initial array N times
+    const cardsCloned = new Array(CONFIG_CLONES).fill(null).reduce((acc) => {
+        return acc.concat(cardsWithId.slice(0))
+    }, []);
+
+    // {...} -> {..., index}
+    const cardsWithIndex = cardsCloned.map((card, index) => Object.assign({}, card, { index }));
 
     return arrayShuffle(cardsWithIndex);
 };

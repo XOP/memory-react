@@ -6,8 +6,11 @@ import {
     pickAvailableToggle,
     toggleCard,
     removeCards,
+    resetPicks,
     resetCards
 } from '../actions';
+
+import Button from '../components/button';
 
 import Card from './card';
 
@@ -16,6 +19,11 @@ class App extends Component {
         super(props);
 
         this.handleCardPick = this.handleCardPick.bind(this);
+
+        // debug handlers
+        this.handleResetPicksButtonClick = this.handleResetPicksButtonClick.bind(this);
+        this.handleRemoveButtonClick = this.handleRemoveButtonClick.bind(this);
+        this.handleResetCardsButtonClick = this.handleResetCardsButtonClick.bind(this);
     }
 
     handleCardPick({ index, isSelected }) {
@@ -44,6 +52,18 @@ class App extends Component {
         );
     }
 
+    handleResetPicksButtonClick() {
+        this.props.resetPicks();
+    }
+
+    handleRemoveButtonClick(id) {
+        this.props.removeCards(id);
+    }
+
+    handleResetCardsButtonClick() {
+        this.props.resetCards();
+    }
+
     render() {
         return (
             <div className="container">
@@ -58,6 +78,18 @@ class App extends Component {
                             { this.renderCards() }
                         </section>
 
+                        <section className="box has-text-centered">
+                            <h2 className="heading is-4">Debug</h2>
+
+                            <Button onClick={this.handleResetPicksButtonClick}>Picks Reset</Button>
+                            <hr/>
+                            <Button onClick={this.handleRemoveButtonClick.bind(this, 0)}>Remove id#0</Button>
+                            <Button onClick={this.handleRemoveButtonClick.bind(this, 1)}>Remove id#1</Button>
+                            <Button onClick={this.handleRemoveButtonClick.bind(this, 2)}>Remove id#2</Button>
+                            <Button onClick={this.handleRemoveButtonClick.bind(this, 3)}>Remove id#3</Button>
+                            <hr/>
+                            <Button onClick={this.handleResetCardsButtonClick}>Cards Reset</Button>
+                        </section>
                     </div>
                 </div>
             </div>
@@ -73,6 +105,9 @@ App.propTypes = {
 
 const mapDispatchToProps = {
     pickAvailableToggle,
+    removeCards,
+    resetCards,
+    resetPicks,
     toggleCard
 };
 

@@ -9,6 +9,7 @@ import {
     CONFIG_CLONES,
 
     REMOVED_CARDS,
+    RESET_CARDS,
     RESET_PICKS,
     TOGGLED_CARD,
     TOGGLED_PICK_AVAILABLE
@@ -44,6 +45,10 @@ const cardsReducer = (state = initCards(), action) => {
                     return item;
                 }
             });
+        }
+
+        case RESET_CARDS: {
+            return initCards();
         }
 
         case RESET_PICKS: {

@@ -1,6 +1,7 @@
 import {
     TOGGLED_CARD,
     REMOVED_CARDS,
+    RESET_CARDS,
     RESET_PICKS,
     TOGGLED_PICK_AVAILABLE
 } from '../constants';
@@ -21,5 +22,9 @@ export const removeCards = (id) => ({
 });
 
 export const resetCards = () => ({
+    type: RESET_CARDS
+});
+
+export const resetPicks = () => ({
     type: RESET_PICKS
 });

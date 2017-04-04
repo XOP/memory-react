@@ -68,6 +68,31 @@ const cardsReducer = (state = initCards(), action) => {
     }
 };
 
+const pickedCardsIndexesReducer = (state = initialState.pickedCardsIndexes, action) => {
+    switch (action.type) {
+        case TOGGLED_CARD: {
+            if (action.payload.isSelected) {
+                return state.concat(action.payload.index);
+            } else {
+                return state.filter(item => item !== action.payload.index);
+            }
+        }
+
+        case REMOVED_CARDS:
+        case RESET_CARDS:
+        case RESET_PICKS: {
+            return initialState.pickedCardsIndexes;
+        }
+
+        default:
+            return state;
+    }
+};
+
+// const matchesReducer = (state = initialState.matches, action) => {
+//
+// };
+
 // const pickedCardsSelector = (state) => {
 //     return state.cards.filter(item => item.isSelected);
 // };
@@ -84,7 +109,8 @@ const isPickAvailableReducer = (state = initialState.isPickAvailable, action) =>
 
 const rootReducer = combineReducers({
     cards: cardsReducer,
-    // pickedCards: pickedCardsSelector,
+
+    pickedCardsIndexes: pickedCardsIndexesReducer,
 
     isPickAvailable: isPickAvailableReducer
 });

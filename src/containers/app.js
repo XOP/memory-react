@@ -81,6 +81,14 @@ class App extends Component {
                         <section className="box has-text-centered">
                             <h2 className="heading is-4">Debug</h2>
 
+                            <div className="box">
+                                <span>Picked Indexes: &nbsp;</span>
+                                {
+                                    this.props.pickedIndexes.map(idx => <span key={idx}>{idx}&nbsp;</span>)
+                                }
+                            </div>
+
+                            <hr/>
                             <Button onClick={this.handleResetPicksButtonClick}>Picks Reset</Button>
                             <hr/>
                             <Button onClick={this.handleRemoveButtonClick.bind(this, 0)}>Remove id#0</Button>
@@ -113,7 +121,8 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => {
     return {
-        cards: state.cards
+        cards: state.cards,
+        pickedIndexes: state.pickedCardsIndexes
     };
 };
 

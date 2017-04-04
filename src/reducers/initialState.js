@@ -1,4 +1,5 @@
 export default {
     isPickAvailable: true,
-    pickedCards: []
+    pickedCards: [],
+    pickedCardsIndexes: []
 };

@@ -10,6 +10,11 @@ import {
     resetCards
 } from '../actions';
 
+import {
+    matchesSelector,
+    pickedCardsSelector
+} from '../reducers';
+
 import Button from '../components/button';
 
 import Card from './card';
@@ -88,6 +93,20 @@ class App extends Component {
                                 }
                             </div>
 
+                            <div className="box">
+                                <span>Picked Cards: &nbsp;</span>
+                                {
+                                    JSON.stringify(this.props.pickedCards)
+                                }
+                            </div>
+
+                            <div className="box">
+                                <span>Matched ID: &nbsp;</span>
+                                {
+                                    JSON.stringify(this.props.matchedId)
+                                }
+                            </div>
+
                             <hr/>
                             <Button onClick={this.handleResetPicksButtonClick}>Picks Reset</Button>
                             <hr/>
@@ -122,6 +141,8 @@ const mapDispatchToProps = {
 const mapStateToProps = state => {
     return {
         cards: state.cards,
+        matchedId: matchesSelector(state),
+        pickedCards: pickedCardsSelector(state),
         pickedIndexes: state.pickedCardsIndexes
     };
 };

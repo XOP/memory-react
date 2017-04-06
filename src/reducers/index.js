@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 
 import arrayShuffle from 'array-shuffle';
+import _uniq from 'lodash/uniq';
 
 import initCardsReducer from './initCardsReducer';
 import initialState from './initialState';
@@ -89,13 +90,25 @@ const pickedCardsIndexesReducer = (state = initialState.pickedCardsIndexes, acti
     }
 };
 
-// const matchesReducer = (state = initialState.matches, action) => {
-//
-// };
+const pickedCardsSelector = state => {
+    return state.cards.filter(item => state.pickedCardsIndexes.indexOf(item.index) > -1);
+};
 
-// const pickedCardsSelector = (state) => {
-//     return state.cards.filter(item => item.isSelected);
-// };
+const matchesSelector = state => {
+    const pickedCards = pickedCardsSelector(state);
+
+    if (pickedCards.length !== CONFIG_CLONES) {
+        return null;
+    }
+
+    const pickedCardsIds = pickedCards.map(item => item.id);
+
+    if (_uniq(pickedCardsIds).length === 1) {
+        return pickedCardsIds[0];
+    } else {
+        return false;
+    }
+};
 
 const isPickAvailableReducer = (state = initialState.isPickAvailable, action) => {
     switch (action.type) {
@@ -114,5 +127,10 @@ const rootReducer = combineReducers({
 
     isPickAvailable: isPickAvailableReducer
 });
+
+export {
+    matchesSelector,
+    pickedCardsSelector
+};
 
 export default rootReducer;

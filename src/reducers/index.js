@@ -94,7 +94,7 @@ const pickedCardsSelector = state => {
     return state.cards.filter(item => state.pickedCardsIndexes.indexOf(item.index) > -1);
 };
 
-const matchesSelector = state => {
+const matchIdSelector = state => {
     const pickedCards = pickedCardsSelector(state);
 
     if (pickedCards.length !== CONFIG_CLONES) {
@@ -129,7 +129,7 @@ const rootReducer = combineReducers({
 });
 
 export {
-    matchesSelector,
+    matchIdSelector,
     pickedCardsSelector
 };
 

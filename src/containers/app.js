@@ -11,7 +11,7 @@ import {
 } from '../actions';
 
 import {
-    matchesSelector,
+    matchIdSelector,
     pickedCardsSelector
 } from '../reducers';
 
@@ -36,28 +36,25 @@ class App extends Component {
         this.handleResetCardsButtonClick = this.handleResetCardsButtonClick.bind(this);
     }
 
-    handleCardPick({ index, isSelected }) {
-        this.props.toggleCard(index, isSelected);
+    componentDidUpdate(prevProps) {
+        const {
+            matchId,
+            pickedIndexes
+        } = this.props;
 
-        // todo
-        setTimeout(() => {
-            const {
-                pickedIndexes,
-                matchedId
-            } = this.props;
-
-            console.log(this.props.cards);
-            console.log(matchedId);
-            console.log("==================");
-
-            if (matchedId) {
-                setTimeout(() => this.props.removeCards(matchedId), CONFIG_CHECK_TIMEOUT);
+        if (matchId !== prevProps.matchId) {
+            if (matchId) {
+                setTimeout(() => this.props.removeCards(matchId), CONFIG_CHECK_TIMEOUT);
             } else {
                 if (pickedIndexes.length === CONFIG_CLONES) {
                     setTimeout(() => this.props.resetPicks(), CONFIG_CHECK_TIMEOUT);
                 }
             }
-        }, 0);
+        }
+    }
+
+    handleCardPick({ index, isSelected }) {
+        this.props.toggleCard(index, isSelected);
     }
 
     renderCards() {
@@ -124,7 +121,7 @@ class App extends Component {
                             <div className="box">
                                 <span>Matched ID: &nbsp;</span>
                                 {
-                                    JSON.stringify(this.props.matchedId)
+                                    JSON.stringify(this.props.matchId)
                                 }
                             </div>
 
@@ -148,7 +145,7 @@ class App extends Component {
 App.propTypes = {
     cards: PropTypes.array,
 
-    matchedId: PropTypes.oneOfType([
+    matchId: PropTypes.oneOfType([
         PropTypes.bool,
         PropTypes.string
     ]),
@@ -169,7 +166,7 @@ const mapDispatchToProps = {
 const mapStateToProps = state => {
     return {
         cards: state.cards,
-        matchedId: matchesSelector(state),
+        matchId: matchIdSelector(state),
         pickedCards: pickedCardsSelector(state),
         pickedIndexes: state.pickedCardsIndexes
     };

@@ -18,7 +18,7 @@ export const toggleCard = (index, isSelected) => ({
 
 export const removeCards = (id) => ({
     type: REMOVED_CARDS,
-    payload: id
+    payload: +id
 });
 
 export const resetCards = () => ({

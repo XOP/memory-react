@@ -19,6 +19,11 @@ import Button from '../components/button';
 
 import Card from './card';
 
+import {
+    CONFIG_CLONES,
+    CONFIG_CHECK_TIMEOUT
+} from '../constants';
+
 class App extends Component {
     constructor(props) {
         super(props);
@@ -32,11 +37,27 @@ class App extends Component {
     }
 
     handleCardPick({ index, isSelected }) {
-        console.log(this.props.cards);
-        console.log("==================");
-        console.log(index, isSelected);
-
         this.props.toggleCard(index, isSelected);
+
+        // todo
+        setTimeout(() => {
+            const {
+                pickedIndexes,
+                matchedId
+            } = this.props;
+
+            console.log(this.props.cards);
+            console.log(matchedId);
+            console.log("==================");
+
+            if (matchedId) {
+                setTimeout(() => this.props.removeCards(matchedId), CONFIG_CHECK_TIMEOUT);
+            } else {
+                if (pickedIndexes.length === CONFIG_CLONES) {
+                    setTimeout(() => this.props.resetPicks(), CONFIG_CHECK_TIMEOUT);
+                }
+            }
+        }, 0);
     }
 
     renderCards() {
@@ -127,7 +148,14 @@ class App extends Component {
 App.propTypes = {
     cards: PropTypes.array,
 
-    pickAvailableToggle: PropTypes.func
+    matchedId: PropTypes.oneOfType([
+        PropTypes.bool,
+        PropTypes.string
+    ]),
+    pickAvailableToggle: PropTypes.func,
+    pickedIndexes: PropTypes.array,
+    resetPicks: PropTypes.func,
+    toggleCard: PropTypes.func
 };
 
 const mapDispatchToProps = {

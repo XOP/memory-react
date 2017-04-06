@@ -104,7 +104,7 @@ const matchesSelector = state => {
     const pickedCardsIds = pickedCards.map(item => item.id);
 
     if (_uniq(pickedCardsIds).length === 1) {
-        return pickedCardsIds[0];
+        return pickedCardsIds[0].toString();
     } else {
         return false;
     }

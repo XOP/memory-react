@@ -1,5 +1,6 @@
 import {
     TOGGLED_CARD,
+    TOGGLED_CARD_HIGHLIGHT,
     REMOVED_CARDS,
     RESET_CARDS,
     RESET_PICKS,
@@ -27,4 +28,9 @@ export const resetCards = () => ({
 
 export const resetPicks = () => ({
     type: RESET_PICKS
+});
+
+export const highLightCardToggle = (id, isHighlighted) => ({
+    type: TOGGLED_CARD_HIGHLIGHT,
+    payload: { id, isHighlighted }
 });

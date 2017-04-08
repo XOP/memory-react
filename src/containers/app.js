@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import {
+    highLightCardToggle,
     pickAvailableToggle,
     toggleCard,
     removeCards,
@@ -11,7 +12,8 @@ import {
 } from '../actions';
 
 import {
-    leftToWinSelector,
+    leftCardsSelector,
+    leftIdsSelector,
     matchIdSelector,
     pickedCardsSelector
 } from '../reducers';
@@ -31,6 +33,7 @@ class App extends Component {
 
         this.handleCardPick = this.handleCardPick.bind(this);
         this.handleReset = this.handleReset.bind(this);
+        this.handleShowHint = this.handleShowHint.bind(this);
 
         // debug handlers
         this.handleResetPicksButtonClick = this.handleResetPicksButtonClick.bind(this);
@@ -45,11 +48,13 @@ class App extends Component {
 
     componentDidUpdate(prevProps) {
         const {
-            leftToWin,
+            leftIds,
             matchId,
             moves,
             pickedIndexes
         } = this.props;
+
+        const leftToWin = leftIds.length;
 
         // game is finished
         if (leftToWin === 0) {
@@ -84,6 +89,15 @@ class App extends Component {
         this.props.resetCards();
     }
 
+    handleShowHint() {
+        const { leftIds } = this.props;
+        const leftToWin = leftIds.length;
+        const randomId = leftIds[~~(Math.random() * leftToWin)];
+
+        this.props.highLightCardToggle(randomId, true);
+        setTimeout(() => this.props.highLightCardToggle(randomId, false), CONFIG_CHECK_TIMEOUT);
+    }
+
     renderCards() {
         const { cards } = this.props;
 
@@ -91,6 +105,7 @@ class App extends Component {
             cards.map((card, idx) => (
                 <Card
                     id={card.id}
+                    isHighlighted={card.isHighlighted}
                     isRemoved={card.isRemoved}
                     isSelected={card.isSelected}
                     index={card.index}
@@ -134,6 +149,10 @@ class App extends Component {
                         <section className="box has-text-centered">
                             <Button className="is-warning" size="medium" onClick={this.handleReset}>
                                 I give up
+                            </Button>
+                            <span>&nbsp;</span>
+                            <Button className="is-info" size="medium" onClick={this.handleShowHint}>
+                                Show hint
                             </Button>
                         </section>
 
@@ -195,6 +214,8 @@ class App extends Component {
 App.propTypes = {
     cards: PropTypes.array,
 
+    leftCards: PropTypes.array,
+    leftIds: PropTypes.array,
     matchId: PropTypes.oneOfType([
         PropTypes.bool,
         PropTypes.string
@@ -207,6 +228,7 @@ App.propTypes = {
 };
 
 const mapDispatchToProps = {
+    highLightCardToggle,
     pickAvailableToggle,
     removeCards,
     resetCards,
@@ -217,12 +239,12 @@ const mapDispatchToProps = {
 const mapStateToProps = state => {
     return {
         cards: state.cards,
-        leftToWin: leftToWinSelector(state),
+        leftCards: leftCardsSelector(state),
+        leftIds: leftIdsSelector(state),
         matchId: matchIdSelector(state),
         moves: state.moves,
         pickedCards: pickedCardsSelector(state),
-        pickedIndexes: state.pickedCardsIndexes,
-        removedCardsIds: state.removedCardsIds
+        pickedIndexes: state.pickedCardsIndexes
     };
 };
 

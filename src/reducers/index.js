@@ -13,6 +13,7 @@ import {
     RESET_CARDS,
     RESET_PICKS,
     TOGGLED_CARD,
+    TOGGLED_CARD_HIGHLIGHT,
     TOGGLED_PICK_AVAILABLE
 } from '../constants';
 
@@ -45,6 +46,19 @@ const cardsReducer = (state = initCards(), action) => {
                     return  {
                         ...item,
                         isSelected: action.payload.isSelected
+                    }
+                } else {
+                    return item;
+                }
+            });
+        }
+
+        case TOGGLED_CARD_HIGHLIGHT: {
+            return state.map(item => {
+                if (item.id === action.payload.id) {
+                    return  {
+                        ...item,
+                        isHighlighted: action.payload.isHighlighted
                     }
                 } else {
                     return item;
@@ -152,6 +166,14 @@ const pickedCardsSelector = state => {
     return state.cards.filter(item => state.pickedCardsIndexes.indexOf(item.index) > -1);
 };
 
+const leftCardsSelector = state => {
+    return state.cards.filter(item => state.removedCardsIds.indexOf(item.id) === -1);
+};
+
+const leftIdsSelector = state => {
+    return leftCardsSelector(state).map(item => item.id);
+};
+
 const matchIdSelector = state => {
     const pickedCards = pickedCardsSelector(state);
 
@@ -168,8 +190,6 @@ const matchIdSelector = state => {
     }
 };
 
-const leftToWinSelector = state => state.cards.length / CONFIG_CLONES - state.removedCardsIds.length;
-
 const rootReducer = combineReducers({
     cards: cardsReducer,
     moves: movesReducer,
@@ -180,7 +200,8 @@ const rootReducer = combineReducers({
 });
 
 export {
-    leftToWinSelector,
+    leftCardsSelector,
+    leftIdsSelector,
     matchIdSelector,
     pickedCardsSelector
 };

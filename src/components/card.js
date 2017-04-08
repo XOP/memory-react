@@ -5,7 +5,8 @@ import cls from 'classnames';
 import {
     CARD_SELECTED_STYLE,
     CARD_REMOVED_STYLE,
-    CARD_BACK_STYLE
+    CARD_BACK_STYLE,
+    CARD_BACK_HIGHLIGHTED_STYLE
 } from '../constants/cardStyle';
 
 class Card extends Component {
@@ -23,6 +24,7 @@ class Card extends Component {
         const {
             children,
             imageSrc,
+            isHighlighted,
             isRemoved,
             isSelected,
             style,
@@ -43,6 +45,7 @@ class Card extends Component {
         return (
             <div
                 className={cls('memory-game-card card', {
+                    'is-highlighted': isHighlighted,
                     'is-selected': isSelected,
                     'is-removed': isRemoved
                 })}
@@ -54,7 +57,9 @@ class Card extends Component {
                         <figure className="image is-128x128">
                             {cardImage}
                         </figure> :
-                        <div className="notification is-info" style={CARD_BACK_STYLE} />
+                            isHighlighted ?
+                                <div className="notification is-info" style={CARD_BACK_HIGHLIGHTED_STYLE} /> :
+                                <div className="notification is-info" style={CARD_BACK_STYLE} />
                 }
             </div>
         );
@@ -66,6 +71,8 @@ Card.propTypes = {
         PropTypes.number,
         PropTypes.string
     ]),
+    imageSrc: PropTypes.string,
+    isHighlighted: PropTypes.bool,
     isRemoved: PropTypes.bool,
     isSelected: PropTypes.bool,
     onClick: PropTypes.func,

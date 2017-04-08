@@ -3,6 +3,13 @@ export const CARD_BACK_STYLE = {
     height: '128px'
 };
 
+export const CARD_BACK_HIGHLIGHTED_STYLE = {
+    width: '128px',
+    height: '128px',
+    outline: '2px solid #999',
+    outlineOffset: '6px'
+};
+
 export const CARD_SELECTED_STYLE = {
     outline: '3px solid'
 };

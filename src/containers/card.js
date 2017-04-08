@@ -27,6 +27,7 @@ class SmartCard extends Component {
     render() {
         return (
             <Card
+                isHighlighted={this.props.isHighlighted}
                 isRemoved={this.props.isRemoved}
                 isSelected={this.props.isSelected}
                 onClick={this.handleClick}

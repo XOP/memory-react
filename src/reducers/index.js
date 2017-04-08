@@ -33,6 +33,10 @@ const initCards = () => {
     return arrayShuffle(cardsWithIndex);
 };
 
+// =================================================================================================================
+// Reducers
+// =================================================================================================================
+
 const cardsReducer = (state = initCards(), action) => {
     switch (action.type) {
         case TOGGLED_CARD: {
@@ -61,8 +65,18 @@ const cardsReducer = (state = initCards(), action) => {
             });
         }
 
-        case REMOVED_CARDS:
-            return state.filter(item => item.id !== action.payload);
+        case REMOVED_CARDS: {
+            return state.map(item => {
+                if (item.id === action.payload) {
+                    return  {
+                        ...item,
+                        isRemoved: true
+                    }
+                } else {
+                    return item;
+                }
+            });
+        }
 
         default:
             return state;
@@ -90,6 +104,20 @@ const pickedCardsIndexesReducer = (state = initialState.pickedCardsIndexes, acti
     }
 };
 
+const isPickAvailableReducer = (state = initialState.isPickAvailable, action) => {
+    switch (action.type) {
+        case TOGGLED_PICK_AVAILABLE:
+            return action.payload;
+
+        default:
+            return state;
+    }
+};
+
+// =================================================================================================================
+// Selectors
+// =================================================================================================================
+
 const pickedCardsSelector = state => {
     return state.cards.filter(item => state.pickedCardsIndexes.indexOf(item.index) > -1);
 };
@@ -107,16 +135,6 @@ const matchIdSelector = state => {
         return pickedCardsIds[0].toString();
     } else {
         return false;
-    }
-};
-
-const isPickAvailableReducer = (state = initialState.isPickAvailable, action) => {
-    switch (action.type) {
-        case TOGGLED_PICK_AVAILABLE:
-            return action.payload;
-
-        default:
-            return state;
     }
 };
 

@@ -4,7 +4,7 @@ import cls from 'classnames';
 
 import {
     CARD_SELECTED_STYLE,
-    CARD_CLEARED_STYLE,
+    CARD_REMOVED_STYLE,
     CARD_BACK_STYLE
 } from '../constants/cardStyle';
 
@@ -23,7 +23,7 @@ class Card extends Component {
         const {
             children,
             imageSrc,
-            isCleared,
+            isRemoved,
             isSelected,
             style,
             title
@@ -37,14 +37,14 @@ class Card extends Component {
 
         const cardStyle = Object.assign({}, style,
             isSelected && CARD_SELECTED_STYLE,
-            isCleared && CARD_CLEARED_STYLE
+            isRemoved && CARD_REMOVED_STYLE
         );
 
         return (
             <div
                 className={cls('memory-game-card card', {
                     'is-selected': isSelected,
-                    'is-cleared': isCleared
+                    'is-removed': isRemoved
                 })}
                 style={cardStyle}
                 onClick={this.handleClick}
@@ -66,7 +66,7 @@ Card.propTypes = {
         PropTypes.number,
         PropTypes.string
     ]),
-    isCleared: PropTypes.bool,
+    isRemoved: PropTypes.bool,
     isSelected: PropTypes.bool,
     onClick: PropTypes.func,
     style: PropTypes.object,

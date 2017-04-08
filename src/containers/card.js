@@ -14,7 +14,7 @@ class SmartCard extends Component {
     handleClick(e) {
         e.preventDefault();
 
-        if (this.props.isDisabled) {
+        if (this.props.isDisabled || this.props.isRemoved) {
             return false;
         }
 
@@ -27,6 +27,7 @@ class SmartCard extends Component {
     render() {
         return (
             <Card
+                isRemoved={this.props.isRemoved}
                 isSelected={this.props.isSelected}
                 onClick={this.handleClick}
             >
@@ -40,6 +41,7 @@ SmartCard.propTypes = {
     children: PropTypes.node,
     id: PropTypes.number,
     isDisabled: PropTypes.bool,
+    isRemoved: PropTypes.bool,
     isSelected: PropTypes.bool,
     index: PropTypes.number,
     onClick: PropTypes.func

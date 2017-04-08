@@ -64,6 +64,7 @@ class App extends Component {
             cards.map((card, idx) => (
                 <Card
                     id={card.id}
+                    isRemoved={card.isRemoved}
                     isSelected={card.isSelected}
                     index={card.index}
                     key={idx}

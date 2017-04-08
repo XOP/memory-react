@@ -91,19 +91,19 @@ class App extends Component {
     render() {
         return (
             <div className="container">
+                <div className="section has-text-centered">
+                    <h1 className="title is-1">Memory</h1>
+                </div>
+
                 <div className="columns">
                     <div className="column is-8 is-offset-2">
-
-                        <div className="section has-text-centered">
-                            <h1 className="title">Memory</h1>
-                        </div>
 
                         <section className="has-text-centered">
                             { this.renderCards() }
                         </section>
 
                         <section className="box has-text-centered">
-                            <h2 className="heading is-4">Debug</h2>
+                            <h2 className="title is-4">Debug</h2>
 
                             <div className="box">
                                 <span>Picked Indexes: &nbsp;</span>
@@ -137,6 +137,20 @@ class App extends Component {
                             <Button onClick={this.handleResetCardsButtonClick}>Cards Reset</Button>
                         </section>
                     </div>
+
+                    <div className="column is-2">
+                        <h2 className="title is-3 has-text-centered">
+                            Score
+                        </h2>
+                        <div className="box">
+                            <table>
+                                <tr>
+                                    <td>Moves</td>
+                                    <td className="has-text-right">{ this.props.moves }</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         );
@@ -150,6 +164,7 @@ App.propTypes = {
         PropTypes.bool,
         PropTypes.string
     ]),
+    moves: PropTypes.number,
     pickAvailableToggle: PropTypes.func,
     pickedIndexes: PropTypes.array,
     resetPicks: PropTypes.func,
@@ -168,6 +183,7 @@ const mapStateToProps = state => {
     return {
         cards: state.cards,
         matchId: matchIdSelector(state),
+        moves: state.moves,
         pickedCards: pickedCardsSelector(state),
         pickedIndexes: state.pickedCardsIndexes
     };

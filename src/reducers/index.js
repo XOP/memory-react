@@ -114,6 +114,19 @@ const isPickAvailableReducer = (state = initialState.isPickAvailable, action) =>
     }
 };
 
+const movesReducer = (state = initialState.moves, action = {}) => {
+    switch (action.type) {
+        case TOGGLED_CARD:
+            return state + 1;
+
+        case RESET_CARDS:
+            return initialState.moves;
+
+        default:
+            return state;
+    }
+};
+
 // =================================================================================================================
 // Selectors
 // =================================================================================================================
@@ -140,7 +153,7 @@ const matchIdSelector = state => {
 
 const rootReducer = combineReducers({
     cards: cardsReducer,
-
+    moves: movesReducer,
     pickedCardsIndexes: pickedCardsIndexesReducer,
 
     isPickAvailable: isPickAvailableReducer

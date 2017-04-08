@@ -66,6 +66,10 @@ const cardsReducer = (state = initCards(), action) => {
         }
 
         case REMOVED_CARDS: {
+            if (action.payload === null) {
+                return [];
+            }
+
             return state.map(item => {
                 if (item.id === action.payload) {
                     return  {
@@ -127,6 +131,19 @@ const movesReducer = (state = initialState.moves, action = {}) => {
     }
 };
 
+const removedCardsIdsReducer = (state = initialState.removedCardsIds, action) => {
+    switch (action.type) {
+        case REMOVED_CARDS:
+            return state.concat(action.payload);
+
+        case RESET_CARDS:
+            return initialState.removedCardsIds;
+
+        default:
+            return state;
+    }
+};
+
 // =================================================================================================================
 // Selectors
 // =================================================================================================================
@@ -151,15 +168,19 @@ const matchIdSelector = state => {
     }
 };
 
+const leftToWinSelector = state => state.cards.length / CONFIG_CLONES - state.removedCardsIds.length;
+
 const rootReducer = combineReducers({
     cards: cardsReducer,
     moves: movesReducer,
     pickedCardsIndexes: pickedCardsIndexesReducer,
+    removedCardsIds: removedCardsIdsReducer,
 
     isPickAvailable: isPickAvailableReducer
 });
 
 export {
+    leftToWinSelector,
     matchIdSelector,
     pickedCardsSelector
 };

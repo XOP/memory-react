@@ -15,6 +15,7 @@ class Button extends Component {
 
     render() {
         const {
+            className,
             disabled,
             full,
             size,
@@ -23,7 +24,7 @@ class Button extends Component {
 
         return (
             <button
-                className={cls('button', {
+                className={cls('button', className, {
                     'is-disabled': disabled,
                     'is-fullwidth': full,
                     [`is-${size}`]: size,
@@ -39,6 +40,7 @@ class Button extends Component {
 
 Button.propTypes = {
     children: PropTypes.node,
+    className: PropTypes.string,
     disabled: PropTypes.bool,
     onClick: PropTypes.func,
     full: PropTypes.bool,

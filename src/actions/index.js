@@ -16,9 +16,9 @@ export const toggleCard = (index, isSelected) => ({
     payload: { index, isSelected }
 });
 
-export const removeCards = (id) => ({
+export const removeCards = (id = '') => ({
     type: REMOVED_CARDS,
-    payload: +id
+    payload: id === '' ? null : +id // string to number coercion
 });
 
 export const resetCards = () => ({

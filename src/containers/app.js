@@ -56,17 +56,17 @@ class App extends Component {
 
         const leftToWin = leftIds.length;
 
-        // game is finished
-        if (leftToWin === 0) {
-            this.setState({
-                isGameComplete: true,
-                previousScore: moves
-            });
-        }
-
-        // game is almost finished
+        // game is about to finish
         if (leftToWin === 1) {
-            setTimeout(() => this.props.removeCards(), CONFIG_CHECK_TIMEOUT);
+            setTimeout(() => {
+                this.props.removeCards();
+
+                this.setState({
+                    isGameComplete: true,
+                    previousScore: moves
+                });
+
+            }, CONFIG_CHECK_TIMEOUT);
         }
 
         // remove match or reset selected

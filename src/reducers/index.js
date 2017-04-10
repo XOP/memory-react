@@ -171,7 +171,7 @@ const leftCardsSelector = state => {
 };
 
 const leftIdsSelector = state => {
-    return leftCardsSelector(state).map(item => item.id);
+    return _uniq(leftCardsSelector(state).map(item => item.id));
 };
 
 const matchIdSelector = state => {

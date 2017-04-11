@@ -1,6 +1,7 @@
 // config
 export const CONFIG_CLONES = 2;
 export const CONFIG_CHECK_TIMEOUT = 1000;
+export const CONFIG_HINT_DURATION = 400;
 
 // actions
 export const REMOVED_CARDS = 'REMOVED_CARDS';

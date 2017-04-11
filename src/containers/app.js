@@ -19,12 +19,14 @@ import {
 } from '../reducers';
 
 import Button from '../components/button';
+import Splash from '../components/splash';
 
 import Card from './card';
 
 import {
     CONFIG_CLONES,
-    CONFIG_CHECK_TIMEOUT
+    CONFIG_CHECK_TIMEOUT,
+    CONFIG_HINT_DURATION
 } from '../constants';
 
 class App extends Component {
@@ -34,6 +36,7 @@ class App extends Component {
         this.handleCardPick = this.handleCardPick.bind(this);
         this.handleReset = this.handleReset.bind(this);
         this.handleShowHint = this.handleShowHint.bind(this);
+        this.handleGameStart = this.handleGameStart.bind(this);
 
         // debug handlers
         this.handleResetPicksButtonClick = this.handleResetPicksButtonClick.bind(this);
@@ -41,6 +44,7 @@ class App extends Component {
         this.handleResetCardsButtonClick = this.handleResetCardsButtonClick.bind(this);
 
         this.state = {
+            isGameStarted: false,
             isGameComplete: false,
             previousScore: 0
         };
@@ -95,7 +99,16 @@ class App extends Component {
         const randomId = leftIds[~~(Math.random() * leftToWin)];
 
         this.props.highLightCardToggle(randomId, true);
-        setTimeout(() => this.props.highLightCardToggle(randomId, false), CONFIG_CHECK_TIMEOUT);
+        setTimeout(() => this.props.highLightCardToggle(randomId, false), CONFIG_HINT_DURATION);
+    }
+
+    handleGameStart() {
+        this.setState({
+            isGameStarted: true,
+            isGameComplete: false
+        });
+
+        this.handleReset();
     }
 
     renderCards() {
@@ -115,6 +128,39 @@ class App extends Component {
                     {card.content}
                 </Card>
             ))
+        );
+    }
+
+    renderDebugInfo() {
+        return (
+            <section className="box has-text-centered">
+                <h2 className="title is-4">Debug</h2>
+
+                <div className="box">
+                    <span>Picked Cards: &nbsp;</span>
+                    {
+                        JSON.stringify(this.props.pickedCards)
+                    }
+                    <hr/>
+                    <span>Picked Indexes: &nbsp;</span>
+                    {
+                        this.props.pickedIndexes.map(idx => <span key={idx}>{idx}&nbsp;</span>)
+                    }
+                    <span>&nbsp;|&nbsp;</span>
+                    <span>Matched ID: &nbsp;</span>
+                    {
+                        JSON.stringify(this.props.matchId)
+                    }
+                </div>
+
+                <Button onClick={this.handleResetPicksButtonClick}>Picks Reset</Button>
+                <Button onClick={this.handleResetCardsButtonClick}>Cards Reset</Button>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <Button onClick={this.handleRemoveButtonClick.bind(this, 0)}>Remove id#0</Button>
+                <Button onClick={this.handleRemoveButtonClick.bind(this, 1)}>Remove id#1</Button>
+                <Button onClick={this.handleRemoveButtonClick.bind(this, 2)}>Remove id#2</Button>
+                <Button onClick={this.handleRemoveButtonClick.bind(this, 3)}>Remove id#3</Button>
+            </section>
         );
     }
 
@@ -139,71 +185,89 @@ class App extends Component {
 
                 <div className="columns">
                     <div className="column is-8 is-offset-2">
+                        {
+                            !this.state.isGameStarted &&
+                            <section>
+                                <Splash
+                                    heading="Let's play Memory!"
+                                >
+                                    <Button
+                                        size="large"
+                                        mode="primary"
+                                        onClick={this.handleGameStart}
+                                    >
+                                        Start
+                                    </Button>
+                                </Splash>
+                            </section>
+                        }
+                        {
+                            this.state.isGameStarted && this.state.isGameComplete &&
+                            <section>
+                                <Splash
+                                    heading="Sweet! Here's your score:"
+                                >
+                                    <div className="content is-large">
+                                        <div>Moves made: {this.props.moves}</div>
+                                    </div>
+                                    <br/>
+                                    <Button
+                                        size="large"
+                                        mode="primary"
+                                        onClick={this.handleGameStart}
+                                    >
+                                        One more time?
+                                    </Button>
+                                </Splash>
+                            </section>
+                        }
+                        {
+                            this.state.isGameStarted && !this.state.isGameComplete &&
+                            <section>
+                                <section className="has-text-centered">
+                                    { this.renderCards() }
+                                </section>
 
-                        <section className="has-text-centered">
-                            { this.renderCards() }
-                        </section>
+                                <br/>
 
-                        <br/>
+                                <section className="box has-text-centered">
+                                    <Button className="is-warning" size="medium" onClick={this.handleReset}>
+                                        I give up
+                                    </Button>
+                                    <span>&nbsp;</span>
+                                    <Button className="is-info" size="medium" onClick={this.handleShowHint}>
+                                        Show hint
+                                    </Button>
+                                </section>
+                            </section>
+                        }
 
-                        <section className="box has-text-centered">
-                            <Button className="is-warning" size="medium" onClick={this.handleReset}>
-                                I give up
-                            </Button>
-                            <span>&nbsp;</span>
-                            <Button className="is-info" size="medium" onClick={this.handleShowHint}>
-                                Show hint
-                            </Button>
-                        </section>
-
-                        <section className="box has-text-centered">
-                            <h2 className="title is-4">Debug</h2>
-
-                            <div className="box">
-                                <span>Picked Cards: &nbsp;</span>
-                                {
-                                    JSON.stringify(this.props.pickedCards)
-                                }
-                                <hr/>
-                                <span>Picked Indexes: &nbsp;</span>
-                                {
-                                    this.props.pickedIndexes.map(idx => <span key={idx}>{idx}&nbsp;</span>)
-                                }
-                                <span>&nbsp;|&nbsp;</span>
-                                <span>Matched ID: &nbsp;</span>
-                                {
-                                    JSON.stringify(this.props.matchId)
-                                }
-                            </div>
-
-                            <Button onClick={this.handleResetPicksButtonClick}>Picks Reset</Button>
-                            <Button onClick={this.handleResetCardsButtonClick}>Cards Reset</Button>
-                            &nbsp;&nbsp;&nbsp;&nbsp;
-                            <Button onClick={this.handleRemoveButtonClick.bind(this, 0)}>Remove id#0</Button>
-                            <Button onClick={this.handleRemoveButtonClick.bind(this, 1)}>Remove id#1</Button>
-                            <Button onClick={this.handleRemoveButtonClick.bind(this, 2)}>Remove id#2</Button>
-                            <Button onClick={this.handleRemoveButtonClick.bind(this, 3)}>Remove id#3</Button>
-                        </section>
+                        { this.renderDebugInfo() }
                     </div>
 
                     <div className="column is-2">
-                        <h2 className="title is-3 has-text-centered">
-                            Score
-                        </h2>
-                        <div className="box">
-                            <table>
-                                <tbody>
-                                <tr>
-                                    <td>Moves</td>
-                                    <td className="has-text-right">{ this.props.moves }</td>
-                                </tr>
-                                <tr>
-                                    <td>Previous Game</td>
-                                    <td className="has-text-right">{ this.state.previousScore }</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        {
+                            this.state.isGameStarted &&
+                            <section>
+                                <h2 className="title is-3 has-text-centered">
+                                    Score
+                                </h2>
+                                <div className="box">
+                                    <table>
+                                        <tbody>
+                                        <tr>
+                                            <td>Moves</td>
+                                            <td className="has-text-right">{ this.props.moves }</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Last Game</td>
+                                            <td className="has-text-right">{ this.state.previousScore }</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </section>
+                        }
                     </div>
                 </div>
             </div>

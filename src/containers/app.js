@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 
 import {
     highLightCardToggle,
-    pickAvailableToggle,
-    toggleCard,
     removeCards,
     resetPicks,
-    resetCards
+    resetCards,
+    toggleCard,
+    togglePickAvailable
 } from '../actions';
 
 import {
@@ -75,11 +75,19 @@ class App extends Component {
 
         // remove match or reset selected
         if (matchId !== prevProps.matchId) {
+            this.props.togglePickAvailable(false);
+
             if (matchId) {
-                setTimeout(() => this.props.removeCards(matchId), CONFIG_CHECK_TIMEOUT);
+                setTimeout(() => {
+                    this.props.removeCards(matchId);
+                    this.props.togglePickAvailable(true);
+                }, CONFIG_CHECK_TIMEOUT);
             } else {
                 if (pickedIndexes.length === CONFIG_CLONES) {
-                    setTimeout(() => this.props.resetPicks(), CONFIG_CHECK_TIMEOUT);
+                    setTimeout(() => {
+                        this.props.resetPicks();
+                        this.props.togglePickAvailable(true);
+                    }, CONFIG_CHECK_TIMEOUT);
                 }
             }
         }
@@ -112,12 +120,13 @@ class App extends Component {
     }
 
     renderCards() {
-        const { cards } = this.props;
+        const { cards, isPickAvailable } = this.props;
 
         return (
             cards.map((card, idx) => (
                 <Card
                     id={card.id}
+                    isDisabled={!isPickAvailable}
                     isHighlighted={card.isHighlighted}
                     isRemoved={card.isRemoved}
                     isSelected={card.isSelected}
@@ -277,7 +286,6 @@ class App extends Component {
 
 App.propTypes = {
     cards: PropTypes.array,
-
     leftCards: PropTypes.array,
     leftIds: PropTypes.array,
     matchId: PropTypes.oneOfType([
@@ -285,24 +293,25 @@ App.propTypes = {
         PropTypes.string
     ]),
     moves: PropTypes.number,
-    pickAvailableToggle: PropTypes.func,
     pickedIndexes: PropTypes.array,
     resetPicks: PropTypes.func,
-    toggleCard: PropTypes.func
+    toggleCard: PropTypes.func,
+    togglePickAvailable: PropTypes.func,
 };
 
 const mapDispatchToProps = {
     highLightCardToggle,
-    pickAvailableToggle,
     removeCards,
     resetCards,
     resetPicks,
-    toggleCard
+    toggleCard,
+    togglePickAvailable
 };
 
 const mapStateToProps = state => {
     return {
         cards: state.cards,
+        isPickAvailable: state.isPickAvailable,
         leftCards: leftCardsSelector(state),
         leftIds: leftIdsSelector(state),
         matchId: matchIdSelector(state),

@@ -122,7 +122,7 @@ const pickedCardsIndexesReducer = (state = initialState.pickedCardsIndexes, acti
     }
 };
 
-const isPickAvailableReducer = (state = initialState.isPickAvailable, action) => {
+const isPickAvailableReducer = (state = initialState.isPickAvailable, action = {}) => {
     switch (action.type) {
         case TOGGLED_PICK_AVAILABLE:
             return action.payload;
@@ -192,11 +192,10 @@ const matchIdSelector = state => {
 
 const rootReducer = combineReducers({
     cards: cardsReducer,
+    isPickAvailable: isPickAvailableReducer,
     moves: movesReducer,
     pickedCardsIndexes: pickedCardsIndexesReducer,
-    removedCardsIds: removedCardsIdsReducer,
-
-    isPickAvailable: isPickAvailableReducer
+    removedCardsIds: removedCardsIdsReducer
 });
 
 export {

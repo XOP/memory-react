@@ -7,9 +7,9 @@ import {
     TOGGLED_PICK_AVAILABLE
 } from '../constants';
 
-export const pickAvailableToggle = (available = true) => ({
+export const togglePickAvailable = (state) => ({
     type: TOGGLED_PICK_AVAILABLE,
-    payload: available
+    payload: state
 });
 
 export const toggleCard = (index, isSelected) => ({

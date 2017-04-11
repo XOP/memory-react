@@ -12,9 +12,9 @@ export const togglePickAvailable = (state) => ({
     payload: state
 });
 
-export const toggleCard = (index, isSelected) => ({
+export const toggleCard = (index = '', isSelected) => ({
     type: TOGGLED_CARD,
-    payload: { index, isSelected }
+    payload: index === '' ? null : { index, isSelected }
 });
 
 export const removeCards = (id = '') => ({

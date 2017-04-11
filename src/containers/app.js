@@ -14,6 +14,7 @@ import {
 import {
     leftCardsSelector,
     leftIdsSelector,
+    leftIndexesSelector,
     matchIdSelector,
     pickedCardsSelector
 } from '../reducers';
@@ -26,7 +27,8 @@ import Card from './card';
 import {
     CONFIG_CLONES,
     CONFIG_CHECK_TIMEOUT,
-    CONFIG_HINT_DURATION
+    CONFIG_HINT_DURATION,
+    CONFIG_TRESHOLD
 } from '../constants';
 
 class App extends Component {
@@ -45,6 +47,7 @@ class App extends Component {
 
         this.state = {
             isGameStarted: false,
+            isGameLastMove: false,
             isGameComplete: false,
             previousScore: 0
         };
@@ -61,7 +64,14 @@ class App extends Component {
         const leftToWin = leftIds.length;
 
         // game is about to finish
-        if (leftToWin === 1) {
+        if (leftToWin === CONFIG_TRESHOLD && !this.state.isGameLastMove) {
+            this.setState({
+                isGameLastMove: true
+            });
+
+            this.props.togglePickAvailable(false);
+            this.props.toggleCard();
+
             setTimeout(() => {
                 this.props.removeCards();
 
@@ -70,6 +80,7 @@ class App extends Component {
                     previousScore: moves
                 });
 
+                this.props.togglePickAvailable(true);
             }, CONFIG_CHECK_TIMEOUT);
         }
 
@@ -113,7 +124,8 @@ class App extends Component {
     handleGameStart() {
         this.setState({
             isGameStarted: true,
-            isGameComplete: false
+            isGameComplete: false,
+            isGameLastMove: false
         });
 
         this.handleReset();
@@ -314,6 +326,7 @@ const mapStateToProps = state => {
         isPickAvailable: state.isPickAvailable,
         leftCards: leftCardsSelector(state),
         leftIds: leftIdsSelector(state),
+        leftIndexes: leftIndexesSelector(state),
         matchId: matchIdSelector(state),
         moves: state.moves,
         pickedCards: pickedCardsSelector(state),

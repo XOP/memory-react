@@ -41,6 +41,15 @@ const initCards = () => {
 const cardsReducer = (state = initCards(), action) => {
     switch (action.type) {
         case TOGGLED_CARD: {
+            if (action.payload === null) {
+                return state.map(item => {
+                    return {
+                        ...item,
+                        isSelected: true
+                    }
+                });
+            }
+
             return state.map(item => {
                 if (item.index === action.payload.index) {
                     return  {
@@ -104,6 +113,10 @@ const cardsReducer = (state = initCards(), action) => {
 const pickedCardsIndexesReducer = (state = initialState.pickedCardsIndexes, action) => {
     switch (action.type) {
         case TOGGLED_CARD: {
+            if (!action.payload) {
+                return state;
+            }
+
             if (action.payload.isSelected) {
                 return state.concat(action.payload.index);
             } else {
@@ -134,8 +147,13 @@ const isPickAvailableReducer = (state = initialState.isPickAvailable, action = {
 
 const movesReducer = (state = initialState.moves, action = {}) => {
     switch (action.type) {
-        case TOGGLED_CARD:
+        case TOGGLED_CARD: {
+            if (action.payload === null) {
+                return state;
+            }
+
             return state + 1;
+        }
 
         case RESET_CARDS:
             return initialState.moves;
@@ -174,6 +192,10 @@ const leftIdsSelector = state => {
     return _uniq(leftCardsSelector(state).map(item => item.id));
 };
 
+const leftIndexesSelector = state => {
+    return leftCardsSelector(state).map(item => item.index);
+};
+
 const matchIdSelector = state => {
     const pickedCards = pickedCardsSelector(state);
 
@@ -201,6 +223,7 @@ const rootReducer = combineReducers({
 export {
     leftCardsSelector,
     leftIdsSelector,
+    leftIndexesSelector,
     matchIdSelector,
     pickedCardsSelector
 };

@@ -1,14 +1,20 @@
 export default () => [
     {
-        content: 1
+        content: '👹'
     },
     {
-        content: 2
+        content: '👽'
     },
     {
-        content: 3
+        content: '😈'
     },
     {
-        content: 4
+        content: '🙀'
+    },
+    {
+        content: '😇'
+    },
+    {
+        content: '👻'
     }
 ];

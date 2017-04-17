@@ -55,12 +55,12 @@ class Card extends Component {
             >
                 {
                     isSelected ?
-                        <figure className="image is-128x128">
+                        <figure className="image is-square">
                             {cardImage}
                         </figure> :
                             isHighlighted ?
-                                <div className="notification is-info" style={CARD_BACK_HIGHLIGHTED_STYLE} /> :
-                                <div className="notification is-info" style={CARD_BACK_STYLE} />
+                                <div className="image is-square" style={CARD_BACK_HIGHLIGHTED_STYLE} /> :
+                                <div className="image is-square" style={CARD_BACK_STYLE} />
                 }
             </div>
         );

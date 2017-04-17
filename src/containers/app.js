@@ -29,6 +29,8 @@ import {
     CONFIG_TRESHOLD
 } from '../constants';
 
+import resources from '../resources';
+
 class App extends Component {
     constructor(props) {
         super(props);
@@ -154,7 +156,7 @@ class App extends Component {
         return (
             <div className="section">
                 <div className="section has-text-centered">
-                    <h1 className="title is-1">Memory</h1>
+                    <h1 className="title is-1">{resources.title}</h1>
                 </div>
 
                 <div className="columns">
@@ -163,14 +165,14 @@ class App extends Component {
                             !this.state.isGameStarted &&
                             <section>
                                 <Splash
-                                    heading="Let's play Memory!"
+                                    heading={resources.start.heading}
                                 >
                                     <Button
                                         size="large"
                                         mode="primary"
                                         onClick={this.handleGameStart}
                                     >
-                                        Start
+                                        {resources.controls.start}
                                     </Button>
                                 </Splash>
                             </section>
@@ -180,11 +182,11 @@ class App extends Component {
                             this.state.isGameStarted && this.state.isGameComplete &&
                             <section>
                                 <Splash
-                                    heading="Sweet! Here's your score:"
+                                    heading={resources.result.heading}
                                 >
                                     <div className="content is-large">
-                                        <div>Moves made: {this.props.moves}</div>
-                                        <div>Hints used: {this.props.hints}</div>
+                                        <div>{resources.result.moves}: {this.props.moves}</div>
+                                        <div>{resources.result.hints}: {this.props.hints}</div>
                                     </div>
                                     <br/>
                                     <Button
@@ -192,7 +194,7 @@ class App extends Component {
                                         mode="primary"
                                         onClick={this.handleGameStart}
                                     >
-                                        One more time?
+                                        {resources.controls.retry}
                                     </Button>
                                 </Splash>
                             </section>
@@ -209,13 +211,13 @@ class App extends Component {
 
                                 <section className="box has-text-centered">
                                     <Button className="is-warning" size="medium" onClick={this.handleReset}>
-                                        I give up
+                                        {resources.controls.restart}
                                     </Button>
                                     <span>&nbsp;</span>
                                     {
                                         Boolean(this.props.hintsLeft) &&
                                         <Button className="is-info" size="medium" onClick={this.handleShowHint}>
-                                            Show hint
+                                            {resources.controls.hint}
                                             <span>&nbsp;</span>
                                             <span className="tag is-white">{ this.props.hintsLeft }</span>
                                         </Button>
@@ -230,17 +232,17 @@ class App extends Component {
                             this.state.isGameStarted &&
                             <section>
                                 <h2 className="title is-3 has-text-centered">
-                                    Score
+                                    {resources.score.heading}
                                 </h2>
                                 <div className="box">
                                     <table>
                                         <tbody>
                                         <tr>
-                                            <td>Moves</td>
+                                            <td>{resources.score.moves}</td>
                                             <td className="has-text-right">{ this.props.moves }</td>
                                         </tr>
                                         <tr>
-                                            <td>Last Game</td>
+                                            <td>{resources.score.lastGame}</td>
                                             <td className="has-text-right">{ this.state.previousScore }</td>
                                         </tr>
                                         </tbody>

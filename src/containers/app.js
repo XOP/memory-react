@@ -13,11 +13,8 @@ import {
 
 import {
     hintsUsedSelector,
-    leftCardsSelector,
     leftIdsSelector,
-    leftIndexesSelector,
-    matchIdSelector,
-    pickedCardsSelector
+    matchIdSelector
 } from '../reducers';
 
 import Button from '../components/button';
@@ -40,11 +37,6 @@ class App extends Component {
         this.handleReset = this.handleReset.bind(this);
         this.handleShowHint = this.handleShowHint.bind(this);
         this.handleGameStart = this.handleGameStart.bind(this);
-
-        // debug handlers
-        this.handleResetPicksButtonClick = this.handleResetPicksButtonClick.bind(this);
-        this.handleRemoveButtonClick = this.handleRemoveButtonClick.bind(this);
-        this.handleResetCardsButtonClick = this.handleResetCardsButtonClick.bind(this);
 
         this.state = {
             isGameStarted: false,
@@ -158,54 +150,9 @@ class App extends Component {
         );
     }
 
-    renderDebugInfo() {
-        return (
-            <section className="box has-text-centered">
-                <h2 className="title is-4">Debug</h2>
-
-                <div className="box">
-                    <span>Picked Cards: &nbsp;</span>
-                    {
-                        JSON.stringify(this.props.pickedCards)
-                    }
-                    <hr/>
-                    <span>Picked Indexes: &nbsp;</span>
-                    {
-                        this.props.pickedIndexes.map(idx => <span key={idx}>{idx}&nbsp;</span>)
-                    }
-                    <span>&nbsp;|&nbsp;</span>
-                    <span>Matched ID: &nbsp;</span>
-                    {
-                        JSON.stringify(this.props.matchId)
-                    }
-                </div>
-
-                <Button onClick={this.handleResetPicksButtonClick}>Picks Reset</Button>
-                <Button onClick={this.handleResetCardsButtonClick}>Cards Reset</Button>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <Button onClick={this.handleRemoveButtonClick.bind(this, 0)}>Remove id#0</Button>
-                <Button onClick={this.handleRemoveButtonClick.bind(this, 1)}>Remove id#1</Button>
-                <Button onClick={this.handleRemoveButtonClick.bind(this, 2)}>Remove id#2</Button>
-                <Button onClick={this.handleRemoveButtonClick.bind(this, 3)}>Remove id#3</Button>
-            </section>
-        );
-    }
-
-    handleResetPicksButtonClick() {
-        this.props.resetPicks();
-    }
-
-    handleRemoveButtonClick(id) {
-        this.props.removeCards(id);
-    }
-
-    handleResetCardsButtonClick() {
-        this.props.resetCards();
-    }
-
     render() {
         return (
-            <div className="container">
+            <div className="section">
                 <div className="section has-text-centered">
                     <h1 className="title is-1">Memory</h1>
                 </div>
@@ -228,6 +175,7 @@ class App extends Component {
                                 </Splash>
                             </section>
                         }
+
                         {
                             this.state.isGameStarted && this.state.isGameComplete &&
                             <section>
@@ -249,6 +197,7 @@ class App extends Component {
                                 </Splash>
                             </section>
                         }
+
                         {
                             this.state.isGameStarted && !this.state.isGameComplete &&
                             <section>
@@ -274,8 +223,6 @@ class App extends Component {
                                 </section>
                             </section>
                         }
-
-                        { this.renderDebugInfo() }
                     </div>
 
                     <div className="column is-2">
@@ -344,12 +291,9 @@ const mapStateToProps = state => {
         isPickAvailable: state.isPickAvailable,
         hints: hintsUsedSelector(state),
         hintsLeft: state.hintsLeft,
-        leftCards: leftCardsSelector(state),
         leftIds: leftIdsSelector(state),
-        leftIndexes: leftIndexesSelector(state),
         matchId: matchIdSelector(state),
         moves: state.moves,
-        pickedCards: pickedCardsSelector(state),
         pickedIndexes: state.pickedCardsIndexes
     };
 };

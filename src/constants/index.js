@@ -1,6 +1,7 @@
 // config
 export const CONFIG_CLONES = 2;
 export const CONFIG_CHECK_TIMEOUT = 1000;
+export const CONFIG_HINTS = 3;
 export const CONFIG_HINT_DURATION = 400;
 export const CONFIG_TRESHOLD = 1;
 

@@ -8,6 +8,7 @@ import initialState from './initialState';
 
 import {
     CONFIG_CLONES,
+    CONFIG_HINTS,
 
     REMOVED_CARDS,
     RESET_CARDS,
@@ -150,6 +151,24 @@ const isPickAvailableReducer = (state = initialState.isPickAvailable, action = {
     }
 };
 
+const hintsReducer = (state = CONFIG_HINTS, action = {}) => {
+    switch (action.type) {
+        case TOGGLED_CARD_HIGHLIGHT: {
+            if (action.payload.isHighlighted) {
+                return state - 1;
+            } else {
+                return state;
+            }
+        }
+
+        case RESET_CARDS:
+            return CONFIG_HINTS;
+
+        default:
+            return state;
+    }
+};
+
 const movesReducer = (state = initialState.moves, action = {}) => {
     switch (action.type) {
         case TOGGLED_CARD: {
@@ -201,6 +220,10 @@ const leftIndexesSelector = state => {
     return leftCardsSelector(state).map(item => item.index);
 };
 
+const hintsUsedSelector = state => {
+    return CONFIG_HINTS - state.hintsLeft;
+};
+
 const matchIdSelector = state => {
     const pickedCards = pickedCardsSelector(state);
 
@@ -220,12 +243,14 @@ const matchIdSelector = state => {
 const rootReducer = combineReducers({
     cards: cardsReducer,
     isPickAvailable: isPickAvailableReducer,
+    hintsLeft: hintsReducer,
     moves: movesReducer,
     pickedCardsIndexes: pickedCardsIndexesReducer,
     removedCardsIds: removedCardsIdsReducer
 });
 
 export {
+    hintsUsedSelector,
     leftCardsSelector,
     leftIdsSelector,
     leftIndexesSelector,

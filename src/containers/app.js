@@ -12,6 +12,7 @@ import {
 } from '../actions';
 
 import {
+    hintsUsedSelector,
     leftCardsSelector,
     leftIdsSelector,
     leftIndexesSelector,
@@ -235,6 +236,7 @@ class App extends Component {
                                 >
                                     <div className="content is-large">
                                         <div>Moves made: {this.props.moves}</div>
+                                        <div>Hints used: {this.props.hints}</div>
                                     </div>
                                     <br/>
                                     <Button
@@ -261,9 +263,14 @@ class App extends Component {
                                         I give up
                                     </Button>
                                     <span>&nbsp;</span>
-                                    <Button className="is-info" size="medium" onClick={this.handleShowHint}>
-                                        Show hint
-                                    </Button>
+                                    {
+                                        Boolean(this.props.hintsLeft) &&
+                                        <Button className="is-info" size="medium" onClick={this.handleShowHint}>
+                                            Show hint
+                                            <span>&nbsp;</span>
+                                            <span className="tag is-white">{ this.props.hintsLeft }</span>
+                                        </Button>
+                                    }
                                 </section>
                             </section>
                         }
@@ -303,6 +310,8 @@ class App extends Component {
 
 App.propTypes = {
     cards: PropTypes.array,
+    hints: PropTypes.number,
+    hintsLeft: PropTypes.number,
     leftCards: PropTypes.array,
     leftIds: PropTypes.array,
     matchId: PropTypes.oneOfType([
@@ -314,6 +323,10 @@ App.propTypes = {
     resetPicks: PropTypes.func,
     toggleCard: PropTypes.func,
     togglePickAvailable: PropTypes.func,
+};
+
+App.defaultProps = {
+    hints: 0
 };
 
 const mapDispatchToProps = {
@@ -329,6 +342,8 @@ const mapStateToProps = state => {
     return {
         cards: state.cards,
         isPickAvailable: state.isPickAvailable,
+        hints: hintsUsedSelector(state),
+        hintsLeft: state.hintsLeft,
         leftCards: leftCardsSelector(state),
         leftIds: leftIdsSelector(state),
         leftIndexes: leftIndexesSelector(state),

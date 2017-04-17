@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import cls from 'classnames';
 
 import {
+    CARD_DEFAULT_STYLE,
     CARD_SELECTED_STYLE,
     CARD_REMOVED_STYLE,
     CARD_BACK_STYLE,
@@ -82,11 +83,7 @@ Card.propTypes = {
 
 Card.defaultProps = {
     onClick: () => null,
-    style: {
-        display: 'inline-block',
-        padding: '0.5rem',
-        margin: '0.5rem'
-    }
+    style: CARD_DEFAULT_STYLE
 };
 
 export default Card;

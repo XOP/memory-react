@@ -1,3 +1,7 @@
+import { CONFIG_CHECK_TIMEOUT } from './index';
+
+const timeoutSeconds = `${CONFIG_CHECK_TIMEOUT / 1000 / 4}s`;
+
 export const CARD_BACK_STYLE = {
     width: '128px',
     height: '128px'
@@ -17,7 +21,7 @@ export const CARD_DEFAULT_STYLE = {
     border: '1px solid',
     borderColor: '#fff',
     borderRadius: '3px',
-    transition: 'all .3s ease-out',
+    transition: `all ${timeoutSeconds} ease-out`,
     opacity: '1'
 };
 

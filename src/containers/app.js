@@ -70,18 +70,23 @@ class App extends Component {
             });
 
             this.props.togglePickAvailable(false);
-            this.props.toggleCard();
 
             setTimeout(() => {
-                this.props.removeCards();
+                this.props.toggleCard();
 
-                this.setState({
-                    isGameComplete: true,
-                    previousScore: moves
-                });
+                setTimeout(() => {
+                    this.props.removeCards();
 
-                this.props.togglePickAvailable(true);
-            }, CONFIG_CHECK_TIMEOUT);
+                    setTimeout(() => {
+                        this.setState({
+                            isGameComplete: true,
+                            previousScore: moves
+                        });
+
+                        this.props.togglePickAvailable(true);
+                    }, CONFIG_CHECK_TIMEOUT);
+                }, CONFIG_CHECK_TIMEOUT / 2);
+            }, CONFIG_CHECK_TIMEOUT / 2);
         }
 
         // remove match or reset selected

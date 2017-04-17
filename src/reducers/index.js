@@ -90,7 +90,12 @@ const cardsReducer = (state = initCards(), action) => {
 
         case REMOVED_CARDS: {
             if (action.payload === null) {
-                return [];
+                return state.map(item => {
+                    return  {
+                        ...item,
+                        isRemoved: true
+                    }
+                });
             }
 
             return state.map(item => {

@@ -26,7 +26,7 @@ const initCards = () => {
 
     // duplicating initial array N times
     const cardsCloned = new Array(CONFIG_CLONES).fill(null).reduce((acc) => {
-        return acc.concat(cardsWithId.slice(0))
+        return acc.concat(cardsWithId.slice(0));
     }, []);
 
     // {...} -> {..., index}
@@ -47,7 +47,7 @@ const cardsReducer = (state = initCards(), action) => {
                     return {
                         ...item,
                         isSelected: true
-                    }
+                    };
                 });
             }
 
@@ -56,7 +56,7 @@ const cardsReducer = (state = initCards(), action) => {
                     return  {
                         ...item,
                         isSelected: action.payload.isSelected
-                    }
+                    };
                 } else {
                     return item;
                 }
@@ -69,7 +69,7 @@ const cardsReducer = (state = initCards(), action) => {
                     return  {
                         ...item,
                         isHighlighted: action.payload.isHighlighted
-                    }
+                    };
                 } else {
                     return item;
                 }
@@ -85,7 +85,7 @@ const cardsReducer = (state = initCards(), action) => {
                 return  {
                     ...item,
                     isSelected: false
-                }
+                };
             });
         }
 
@@ -95,7 +95,7 @@ const cardsReducer = (state = initCards(), action) => {
                     return  {
                         ...item,
                         isRemoved: true
-                    }
+                    };
                 });
             }
 
@@ -104,7 +104,7 @@ const cardsReducer = (state = initCards(), action) => {
                     return  {
                         ...item,
                         isRemoved: true
-                    }
+                    };
                 } else {
                     return item;
                 }

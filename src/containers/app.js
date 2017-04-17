@@ -49,6 +49,8 @@ class App extends Component {
     }
 
     componentDidUpdate(prevProps) {
+        /* eslint-disable react/no-did-update-set-state */
+
         const {
             leftIds,
             matchId,
@@ -102,6 +104,8 @@ class App extends Component {
                 }
             }
         }
+
+        /* eslint-enable react/no-did-update-set-state */
     }
 
     handleCardPick({ index, isSelected }) {
@@ -259,8 +263,10 @@ class App extends Component {
 
 App.propTypes = {
     cards: PropTypes.array,
+    highLightCardToggle: PropTypes.func,
     hints: PropTypes.number,
     hintsLeft: PropTypes.number,
+    isPickAvailable: PropTypes.bool,
     leftCards: PropTypes.array,
     leftIds: PropTypes.array,
     matchId: PropTypes.oneOfType([
@@ -269,6 +275,8 @@ App.propTypes = {
     ]),
     moves: PropTypes.number,
     pickedIndexes: PropTypes.array,
+    removeCards: PropTypes.func,
+    resetCards: PropTypes.func,
     resetPicks: PropTypes.func,
     toggleCard: PropTypes.func,
     togglePickAvailable: PropTypes.func,

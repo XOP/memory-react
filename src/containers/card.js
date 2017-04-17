@@ -42,6 +42,7 @@ SmartCard.propTypes = {
     children: PropTypes.node,
     id: PropTypes.number,
     isDisabled: PropTypes.bool,
+    isHighlighted: PropTypes.bool,
     isRemoved: PropTypes.bool,
     isSelected: PropTypes.bool,
     index: PropTypes.number,

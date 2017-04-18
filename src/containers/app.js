@@ -113,7 +113,11 @@ class App extends Component {
     }
 
     handleReset() {
-        this.props.resetCards();
+        this.props.removeCards();
+
+        setTimeout(() => {
+            this.props.resetCards();
+        }, CONFIG_CHECK_TIMEOUT / 2);
     }
 
     handleShowHint() {
@@ -267,7 +271,6 @@ App.propTypes = {
     hints: PropTypes.number,
     hintsLeft: PropTypes.number,
     isPickAvailable: PropTypes.bool,
-    leftCards: PropTypes.array,
     leftIds: PropTypes.array,
     matchId: PropTypes.oneOfType([
         PropTypes.bool,

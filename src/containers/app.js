@@ -26,6 +26,7 @@ import {
     CONFIG_CLONES,
     CONFIG_CHECK_TIMEOUT,
     CONFIG_HINT_DURATION,
+    CONFIG_RESET_CLICKS,
     CONFIG_TRESHOLD
 } from '../constants';
 
@@ -41,6 +42,7 @@ class App extends Component {
         this.handleGameStart = this.handleGameStart.bind(this);
 
         this.state = {
+            failedMatchClicks: 0,
             isGameStarted: false,
             isGameLastMove: false,
             isGameComplete: false,
@@ -94,12 +96,20 @@ class App extends Component {
                 setTimeout(() => {
                     this.props.removeCards(matchId);
                     this.props.togglePickAvailable(true);
+
+                    this.setState({
+                        failedMatchClicks: 0
+                    });
                 }, CONFIG_CHECK_TIMEOUT);
             } else {
                 if (pickedIndexes.length === CONFIG_CLONES) {
                     setTimeout(() => {
                         this.props.resetPicks();
                         this.props.togglePickAvailable(true);
+
+                        this.setState({
+                            failedMatchClicks: this.state.failedMatchClicks + 1
+                        });
                     }, CONFIG_CHECK_TIMEOUT);
                 }
             }
@@ -117,6 +127,10 @@ class App extends Component {
 
         setTimeout(() => {
             this.props.resetCards();
+
+            this.setState({
+                failedMatchClicks: 0
+            });
         }, CONFIG_CHECK_TIMEOUT / 2);
     }
 
@@ -218,9 +232,12 @@ class App extends Component {
                                 <br/>
 
                                 <section className="box has-text-centered">
-                                    <Button className="is-warning" size="medium" onClick={this.handleReset}>
-                                        {resources.controls.restart}
-                                    </Button>
+                                    {
+                                        this.state.failedMatchClicks >= CONFIG_RESET_CLICKS &&
+                                        <Button className="is-warning" size="medium" onClick={this.handleReset}>
+                                            {resources.controls.restart}
+                                        </Button>
+                                    }
                                     <span>&nbsp;</span>
                                     {
                                         Boolean(this.props.hintsLeft) &&

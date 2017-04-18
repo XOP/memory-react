@@ -123,13 +123,17 @@ class App extends Component {
     }
 
     handleReset() {
+        this.props.resetCards();
         this.props.removeCards();
 
         setTimeout(() => {
+            // here reset is used to "un-remove" cards
+            // should be a separate toggle method for that
             this.props.resetCards();
 
             this.setState({
-                failedMatchClicks: 0
+                failedMatchClicks: 0,
+                isGameLastMove: false
             });
         }, CONFIG_CHECK_TIMEOUT / 2);
     }

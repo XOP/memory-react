@@ -242,6 +242,7 @@ const matchIdSelector = state => {
 
 const rootReducer = combineReducers({
     cards: cardsReducer,
+    initCards: initCardsReducer,
     isPickAvailable: isPickAvailableReducer,
     hintsLeft: hintsReducer,
     moves: movesReducer,

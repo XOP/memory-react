@@ -50,6 +50,10 @@ class App extends Component {
         };
     }
 
+    componentDidMount() {
+        this.preRender();
+    }
+
     componentDidUpdate(prevProps) {
         /* eslint-disable react/no-did-update-set-state */
 
@@ -116,6 +120,16 @@ class App extends Component {
         }
 
         /* eslint-enable react/no-did-update-set-state */
+    }
+
+    preRender() {
+        const { initCards } = this.props;
+
+        return initCards.map(card => {
+            const img = new Image();
+
+            img.src = card.content;
+        });
     }
 
     handleCardPick({ index, isSelected }) {
@@ -288,6 +302,7 @@ class App extends Component {
 
 App.propTypes = {
     cards: PropTypes.array,
+    initCards: PropTypes.array,
     highLightCardToggle: PropTypes.func,
     hints: PropTypes.number,
     hintsLeft: PropTypes.number,
@@ -321,6 +336,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => {
     return {
+        initCards: state.initCards,
         cards: state.cards,
         isPickAvailable: state.isPickAvailable,
         hints: hintsUsedSelector(state),

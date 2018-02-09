@@ -1,20 +1,20 @@
 export default () => [
     {
-        content: '👹'
+        content: 'https://picsum.photos/256?image=1062'
     },
     {
-        content: '👽'
+        content: 'https://picsum.photos/256?image=1042'
     },
     {
-        content: '😈'
+        content: 'https://picsum.photos/256?image=1070'
     },
     {
-        content: '🙀'
+        content: 'https://picsum.photos/256?image=1074'
     },
     {
-        content: '😇'
+        content: 'https://picsum.photos/256?image=1084'
     },
     {
-        content: '👻'
+        content: 'https://picsum.photos/256?image=1048'
     }
 ];

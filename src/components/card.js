@@ -35,7 +35,7 @@ class Card extends Component {
         const cardImage = (
             imageSrc ?
                 <img src={imageSrc} alt={title} /> :
-                <img src={`http://placehold.it/256x256?text=${children}`} alt={children}/>
+                <img src={children} alt={children}/>
         );
 
         const cardStyle = Object.assign({}, style,
